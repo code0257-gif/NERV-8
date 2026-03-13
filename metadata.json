@@ -1,0 +1,5 @@
+{
+  "name": "NERV 8 AI Assistant",
+  "description": "A high-tech cross-device AI voice assistant with real-time synchronization and hardware-inspired UI.",
+  "requestFramePermissions": ["microphone"]
+}

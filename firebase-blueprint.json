@@ -1,0 +1,73 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile and settings",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "lastSeen": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Command": {
+      "title": "Command",
+      "description": "A command to be executed on a specific device",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "targetDeviceId": { "type": "string" },
+        "sourceDeviceId": { "type": "string" },
+        "action": { "type": "string" },
+        "params": { "type": "object" },
+        "status": { "type": "string", "enum": ["pending", "executing", "completed", "failed"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["targetDeviceId", "action", "status", "createdAt"]
+    },
+    "Device": {
+      "title": "Device",
+      "description": "A device registered to the user",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string" },
+        "lastActive": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "A chat message",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "text": { "type": "string" },
+        "sender": { "type": "string", "enum": ["user", "ai"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["text", "sender", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile data"
+    },
+    "/users/{userId}/devices/{deviceId}": {
+      "schema": "Device",
+      "description": "Registered devices for the user"
+    },
+    "/users/{userId}/commands/{commandId}": {
+      "schema": "Command",
+      "description": "Cross-device command queue"
+    },
+    "/users/{userId}/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Chat history"
+    }
+  }
+}
